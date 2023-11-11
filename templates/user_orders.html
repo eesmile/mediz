@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оформленные заказы</title>
+</head>
+<body>
+    <h2>Оформленные заказы пользователя {{ user.username }}</h2>
+
+    {% if user_orders %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Номер заказа</th>
+                    <th>Дата заказа</th>
+                    <th>Товары</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in user_orders %}
+                    <tr>
+                        <td>{{ order[0] }}</td>
+                        <td>{{ order[1].strftime('%d.%m.%Y %H:%M') }}</td>
+                        <td>{{ order[2] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>У вас нет оформленных заказов.</p>
+    {% endif %}
+
+    <br>
+
+    <a href="{{ url_for('profile') }}">Вернуться назад</a>
+</body>
+</html>

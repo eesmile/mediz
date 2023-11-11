@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Товары</title>
+</head>
+<body>
+    <h2>Товары</h2>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Цена</th>
+                <th>Добавить в корзину</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for medicine in medicines %}
+                <tr>
+                    <td>{{ medicine[1] }}</td>
+                    <td>{{ medicine[2] }}</td>
+                    <td>
+                        <form method="post" action="{{ url_for('add_to_cart', medicine_id=medicine[0]) }}">
+                            <button type="submit">Добавить в корзину</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+
+    <a href="{{ url_for('cart') }}">Перейти в корзину</a>
+</body>
+</html>

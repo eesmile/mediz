@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Записи пользователя</title>
+</head>
+<body>
+    <h2>Записи пользователя</h2>
+
+    <form method="post" action="{{ url_for('user_appointments') }}">
+        <label for="search_name">Поиск по имени врача:</label>
+        <input type="text" name="search_name" placeholder="Введите имя врача">
+        <br>
+
+        <label for="search_date">Поиск по дате записи:</label>
+        <input type="date" name="search_date">
+        <br>
+
+        <button type="submit">Искать</button>
+    </form>
+
+    {% if user_appointments %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Врач</th>
+                    <th>Специализация</th>
+                    <th>Дата записи</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointment in user_appointments %}
+                    <tr>
+                        <td>{{ appointment[1] }}</td>
+                        <td>{{ appointment[2] }}</td>
+                        <td>{{ appointment[3] }}</td>
+                        <td>
+                            <form method="post" action="{{ url_for('delete_appointment', appointment_id=appointment[0]) }}">
+                                <button class="delete-button {{ 'disabled' if appointment[4] else '' }}" type="submit" {% if appointment[4] %}disabled{% endif %}>Удалить</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>У вас нет записей к врачам.</p>
+    {% endif %}
+
+    <br>
+
+    <a href="{{ url_for('profile') }}">Вернуться назад</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var deleteButtons = document.querySelectorAll('.delete-button');
+
+            deleteButtons.forEach(function (button) {
+                if (button.classList.contains('disabled')) {
+                    button.addEventListener('click', function (event) {
+                        event.preventDefault();
+                        alert('Нельзя удалить прошедшие записи.');
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Запись к врачу</title>
+</head>
+<body>
+    <h2>Запись к врачу</h2>
+
+    {% if success_message %}
+        <p style="color: green;">{{ success_message }}</p>
+    {% endif %}
+
+    {% if doctors %}
+        <form method="post" action="{{ url_for('appoint_doctor') }}">
+            <label for="doctor_id">Выберите врача:</label>
+            <select name="doctor_id" required>
+                {% for doctor in doctors %}
+                    <option value="{{ doctor[0] }}">{{ doctor[1] }} - {{ doctor[2] }}</option>
+                {% endfor %}
+            </select><br>
+
+            <label for="appointment_time">Выберите время записи:</label>
+            <input type="datetime-local" name="appointment_time" required><br>
+
+            <button type="submit">Записаться к врачу</button>
+        </form>
+    {% else %}
+        <p>В базе нет врачей. Пожалуйста, добавьте врачей перед записью к ним.</p>
+    {% endif %}
+
+    <br>
+
+    <a href="{{ url_for('profile') }}">Вернуться назад</a>
+</body>
+</html>

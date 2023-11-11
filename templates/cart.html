@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина</title>
+</head>
+<body>
+<h2>Корзина</h2>
+
+{% if cart_items %}
+<table border="1">
+    <thead>
+    <tr>
+        <th>Название</th>
+        <th>Цена</th>
+        <th>Количество в корзине</th>
+        <th>Удалить из корзины</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in cart_items %}
+    <tr>
+        <td>{{ item[1] }}</td>
+        <td>{{ item[2] }}</td>
+        <td>{{ item[3] }}</td>
+        <td>
+            <form method="post" action="{{ url_for('remove_from_cart', medicine_id=item[0]) }}">
+                <button type="submit">Удалить</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<form method="post" action="{{ url_for('place_order') }}">
+    <button type="submit">Оформить заказ</button>
+</form>
+{% else %}
+<p>Ваша корзина пуста.</p>
+{% endif %}
+
+<br>
+
+<a href="{{ url_for('profile') }}">Вернуться назад</a>
+</body>
+</html>
